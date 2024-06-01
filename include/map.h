@@ -8,7 +8,7 @@ extern "C" {
 #endif
 
 typedef struct stMapSite {
-    LPCWSTR lpszName;
+    LPWSTR lpszName;
     BYTE bConnectionCount;
     BYTE arrbConnections[];
 } MapSite;

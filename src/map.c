@@ -1,5 +1,6 @@
 #include "map.h"
 
+#include "fileutil.h"
 #include "strutil.h"
 
 static MapSite* ParseMapSite(LPWSTR lpszLine);

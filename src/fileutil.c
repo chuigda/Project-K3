@@ -1,7 +1,13 @@
 #include "fileutil.h"
 
 LPSTR ReadFileAll(LPCWSTR lpszFileName) {
-    HANDLE hFile = CreateFileW(lpszFileName, GENERIC_READ, FILE_SHARE_READ, NULL, OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+    HANDLE hFile = CreateFileW(lpszFileName,
+                               GENERIC_READ,
+                               FILE_SHARE_READ,
+                               NULL,
+                               OPEN_EXISTING,
+                               FILE_ATTRIBUTE_NORMAL,
+                               NULL);
     if (hFile == INVALID_HANDLE_VALUE) {
         return NULL;
     }
@@ -12,7 +18,9 @@ LPSTR ReadFileAll(LPCWSTR lpszFileName) {
         return NULL;
     }
 
-    LPSTR lpszFileContent = (LPSTR)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwFileSize + 1);
+    LPSTR lpszFileContent = (LPSTR)HeapAlloc(GetProcessHeap(),
+                                             HEAP_ZERO_MEMORY,
+                                             dwFileSize + 1);
     if (lpszFileContent == NULL) {
         CloseHandle(hFile);
         return NULL;
@@ -51,7 +59,7 @@ LPSTR* ReadFileLines(LPCWSTR lpszFileName) {
     }
 
     INT nLineCount = 0;
-    LPSTR* lpszLineStart = lpszFileContent;
+    LPSTR lpszLineStart = lpszFileContent;
     while (*lpszFileContent != 0) {
         if (*lpszFileContent == '\n') {
             *lpszFileContent = 0;
