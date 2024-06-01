@@ -8,16 +8,17 @@ extern "C" {
 #endif
 
 typedef struct stMapSite {
-   LPCSTRW lpszName;
-   BYTE bConnectionCount;
-   BYTE arrbConnections[];
+    LPCWSTR lpszName;
+    BYTE bConnectionCount;
+    BYTE arrbConnections[];
 } MapSite;
 
 typedef struct stMap {
-   MapSite* arrpMapSites[];
+    BYTE bSiteCount;
+    MapSite* arrpMapSites[];
 } Map;
 
-Map* ReadMapFromFile(LPCSTRW lpszFileName);
+Map* ReadMapFromFile(LPCWSTR lpszFileName);
 VOID FreeMap(Map* pMap);
 
 #ifdef __cplusplus

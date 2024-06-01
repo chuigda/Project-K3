@@ -12,46 +12,55 @@ LPSTR ReadFileAll(LPCWSTR lpszFileName) {
         return NULL;
     }
 
-    LPSTR lpszFile = (LPSTR)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwFileSize + 1);
-    if (lpszFile == NULL) {
+    LPSTR lpszFileContent = (LPSTR)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, dwFileSize + 1);
+    if (lpszFileContent == NULL) {
         CloseHandle(hFile);
         return NULL;
     }
 
     DWORD dwBytesRead;
-    if (!ReadFile(hFile, lpszFile, dwFileSize, &dwBytesRead, NULL)) {
-        HeapFree(GetProcessHeap(), 0, lpszFile);
+    if (!ReadFile(hFile, lpszFileContent, dwFileSize, &dwBytesRead, NULL)) {
+        HeapFree(GetProcessHeap(), 0, lpszFileContent);
         CloseHandle(hFile);
         return NULL;
     }
 
     CloseHandle(hFile);
-    return lpszFile;
+    return lpszFileContent;
 }
 
 LPSTR* ReadFileLines(LPCWSTR lpszFileName) {
-    LPSTR lpszFile = ReadFileAll(lpszFileName);
-    if (lpszFile == NULL) {
+    LPSTR lpszFileContent = ReadFileAll(lpszFileName);
+    if (lpszFileContent == NULL) {
         return NULL;
     }
 
     DWORD dwLineCount = 0;
-    for (DWORD i = 0; i < strlen(lpszFile); i++) {
-        if (lpszFile[i] == '\n') {
+    for (DWORD i = 0; i < strlen(lpszFileContent); i++) {
+        if (lpszFileContent[i] == '\n') {
             dwLineCount++;
         }
     }
 
-    LPSTR* arrlpszLines = (LPSTR*)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, (dwLineCount + 1) * sizeof(LPSTR));
+    LPSTR* arrlpszLines = (LPSTR*)HeapAlloc(GetProcessHeap(),
+                                            HEAP_ZERO_MEMORY,
+                                            (dwLineCount + 1) * sizeof(LPSTR));
     if (arrlpszLines == NULL) {
-        HeapFree(GetProcessHeap(), 0, lpszFile);
+        HeapFree(GetProcessHeap(), 0, lpszFileContent);
         return NULL;
     }
 
-    LPSTR lpszLine = strtok(lpszFile, "\n");
-    for (DWORD i = 0; lpszLine != NULL; i++) {
-        arrlpszLines[i] = lpszLine;
-        lpszLine = strtok(NULL, "\n");
+    INT nLineCount = 0;
+    LPSTR* lpszLineStart = lpszFileContent;
+    while (*lpszFileContent != 0) {
+        if (*lpszFileContent == '\n') {
+            *lpszFileContent = 0;
+            arrlpszLines[nLineCount++] = lpszLineStart;
+            lpszFileContent++;
+            lpszLineStart = lpszFileContent;
+        } else {
+            lpszFileContent++;
+        }
     }
 
     return arrlpszLines;
