@@ -15,6 +15,7 @@ typedef struct stMapSite {
 } MapSite;
 
 typedef struct stMap {
+    LPWSTR lpszFileContent;
     BYTE bSiteCount;
     MapSite* arrpMapSites[];
 } Map;
