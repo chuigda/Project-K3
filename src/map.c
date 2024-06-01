@@ -64,6 +64,5 @@ VOID FreeMap(Map* pMap) {
 }
 
 static VOID FreeMapSite(MapSite* pMapSite) {
-    HeapFree(GetProcessHeap(), 0, pMapSite->lpszName);
     HeapFree(GetProcessHeap(), 0, pMapSite);
 }
