@@ -3,7 +3,6 @@
 int WINAPI WinMain(HINSTANCE hInstance,
                    HINSTANCE hPrevInstance,
                    LPSTR lpszCmdLine,
-                   int nCmdShow)
-{
+                   int nCmdShow) {
     return 0;
 }

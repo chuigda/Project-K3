@@ -28,7 +28,7 @@ define COMPILE
 		-fPIC -c -o $2
 endef
 
-HEADER_FILES = $(wildcard include/*.h) $(wildcard src/include/*.h)
+HEADER_FILES = $(wildcard include/*.h)
 SOURCE_FILES = $(wildcard src/*.c)
 OBJECT_FILES := $(patsubst src/%.c,%.o,$(SOURCE_FILES))
 
@@ -41,3 +41,10 @@ main.o: main.c $(HEADER_FILES)
 
 %.o: src/%.c $(HEADER_FILES)
 	$(call COMPILE,$<,$@)
+
+.PHONY: clean
+clean:
+	$(call LOG,RM,K3.EXE)
+	@rm -f k3.exe
+	$(call LOG,RM,*.o)
+	@rm -f *.o
