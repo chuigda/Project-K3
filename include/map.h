@@ -9,6 +9,7 @@ extern "C" {
 
 typedef struct stMapSite {
     LPWSTR lpszName;
+    LPVOID lpvData;
     BYTE bConnectionCount;
     BYTE arrbConnections[];
 } MapSite;
