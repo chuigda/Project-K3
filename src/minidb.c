@@ -18,7 +18,7 @@ PMINIDB OpenMiniDB(LPCWSTR lpszFileName) {
 
     HeapFree(GetProcessHeap(), 0, lpszFileContent);
 
-    PMINIDB pDB = (PMINIDB)malloc(sizeof(MiniDB));
+    PMINIDB pDB = (PMINIDB)HeapAlloc(GetProcessHeap(), HEAP_ZERO_MEMORY, sizeof(MiniDB));
     if (pDB == NULL) {
         HeapFree(GetProcessHeap(), 0, lpszFileContentW);
         return NULL;
@@ -36,7 +36,9 @@ PMINIDB OpenMiniDB(LPCWSTR lpszFileName) {
             continue;
         }
 
-        PMINIDBITEM pItem = (PMINIDBITEM)malloc(sizeof(MiniDBItem) + sizeof(LPWSTR) * nFields);
+        PMINIDBITEM pItem = (PMINIDBITEM)HeapAlloc(GetProcessHeap(),
+                                                   HEAP_ZERO_MEMORY,
+                                                   sizeof(MiniDBItem) + sizeof(LPWSTR) * nFields);
         if (pItem == NULL) {
             CloseMiniDB(pDB);
             HeapFree(GetProcessHeap(), 0, lpszFileContent);
@@ -59,6 +61,20 @@ PMINIDB OpenMiniDB(LPCWSTR lpszFileName) {
             }
         }
     }
+
+    return pDB;
+}
+
+VOID CloseMiniDB(PMINIDB pDB) {
+    PMINIDBITEM pItem = pDB->pItems;
+    while (pItem != NULL) {
+        PMINIDBITEM pNext = pItem->pNext;
+        HeapFree(GetProcessHeap(), 0, pItem);
+        pItem = pNext;
+    }
+
+    HeapFree(GetProcessHeap(), 0, pDB->lpszFileContent);
+    HeapFree(GetProcessHeap(), 0, pDB);
 }
 
 static LPWSTR countCommaUntilLineFeed(LPWSTR lpszData, INTPTR pCount) {
