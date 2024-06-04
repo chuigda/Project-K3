@@ -21,17 +21,17 @@ typedef enum eGeneralType {
 } GeneralType;
 
 typedef struct stGeneral {
-    UINT nGeneralId;
+    UINT nId;
 
-    LPWSTR lpszGeneralName;
-    UINT nGeneralRareness;
-    UINT nGeneralType;
+    LPWSTR lpszName;
+    UINT nRareness;
+    UINT nType;
 
-    UINT nGeneralLevel;
-    UINT nGeneralXP;
-    UINT nGeneralStrength;
-    UINT nGeneralIntelligence;
-    UINT nGeneralAgility;
+    UINT nLevel;
+    UINT nXP;
+    UINT nStrength;
+    UINT nIntelligence;
+    UINT nAgility;
 } General;
 
 #ifdef __cplusplus
